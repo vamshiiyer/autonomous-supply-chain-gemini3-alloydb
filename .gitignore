@@ -42,3 +42,4 @@ temp/
 # Test artifacts
 test_shared_alloydb.py
 test_shared_alloydb.env
+.env
