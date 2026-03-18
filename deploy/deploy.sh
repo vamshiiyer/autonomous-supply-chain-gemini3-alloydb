@@ -109,6 +109,14 @@ gcloud projects add-iam-policy-binding "$PROJECT_ID" \
 
 # AlloyDB Client — only needed if NOT using shared SA key
 ALLOYDB_TARGET_PROJECT="${ALLOYDB_PROJECT:-$PROJECT_ID}"
+
+# Resolve relative SA key path against repo root (where .env lives)
+if [ -n "$ALLOYDB_SA_KEY_PATH" ] && [ ! -f "$ALLOYDB_SA_KEY_PATH" ]; then
+    if [ -f "$REPO_ROOT/$ALLOYDB_SA_KEY_PATH" ]; then
+        ALLOYDB_SA_KEY_PATH="$REPO_ROOT/$ALLOYDB_SA_KEY_PATH"
+    fi
+fi
+
 if [ -n "$ALLOYDB_SA_KEY_PATH" ] && [ -f "$ALLOYDB_SA_KEY_PATH" ]; then
     echo "   ℹ️  Using shared SA key for AlloyDB auth (no IAM grant needed)"
 elif [ "$ALLOYDB_TARGET_PROJECT" = "$PROJECT_ID" ]; then
