@@ -53,7 +53,8 @@ echo "✅ GCP project configured for Supplier Agent"
 # Build ALLOYDB_INSTANCE_URI from component env vars
 if [ -z "$ALLOYDB_INSTANCE_URI" ]; then
     if [ -n "$ALLOYDB_REGION" ] && [ -n "$ALLOYDB_CLUSTER" ] && [ -n "$ALLOYDB_INSTANCE" ]; then
-        export ALLOYDB_INSTANCE_URI="projects/${GOOGLE_CLOUD_PROJECT}/locations/${ALLOYDB_REGION}/clusters/${ALLOYDB_CLUSTER}/instances/${ALLOYDB_INSTANCE}"
+        ALLOYDB_URI_PROJECT="${ALLOYDB_PROJECT:-$GOOGLE_CLOUD_PROJECT}"
+        export ALLOYDB_INSTANCE_URI="projects/${ALLOYDB_URI_PROJECT}/locations/${ALLOYDB_REGION}/clusters/${ALLOYDB_CLUSTER}/instances/${ALLOYDB_INSTANCE}"
     else
         echo "❌ AlloyDB not configured (required for Supplier Agent)"
         echo "   Set ALLOYDB_REGION, ALLOYDB_CLUSTER, and ALLOYDB_INSTANCE in .env"
